@@ -40,5 +40,16 @@ void average_temp_2(){
     }
 }
 
+void canisters(){
+    uint64_t n, r;
+    uint64_t res = 0, w, h, d;
+    std::cin >> n >> r;
+
+    for(uint64_t i = 0; i < n; i++){
+        std::cin >> w >> h >> d;
+        res += w * h * d * r;
+    }
+    std::cout << res << '\n';
+}
 
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
