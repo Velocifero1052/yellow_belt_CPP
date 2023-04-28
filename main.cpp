@@ -21,6 +21,7 @@ using std::count_if;
 using std::unique;
 using std::tuple;
 using std::min;
+using std::find_if;
 
 enum class TaskStatus {
     NEW,
@@ -110,9 +111,11 @@ void PrintTasksInfo(TasksInfo tasks_info) {
          ", " << tasks_info[TaskStatus::DONE] << " tasks are done\n";
 }
 
+
+
 int main() {
 
-    TeamTasks tasks;
+    /*TeamTasks tasks;
     tasks.AddNewTask("Ilia");
     for (int i = 0; i < 3; ++i) {
         tasks.AddNewTask("Ivan");
@@ -138,7 +141,7 @@ int main() {
     cout << "Untouched Ivan's tasks: ";
     PrintTasksInfo(untouched_tasks);
     cout << "Ivan's tasks: ";
-    PrintTasksInfo(tasks.GetPersonTasksInfo("Ivan"));
+    PrintTasksInfo(tasks.GetPersonTasksInfo("Ivan"));*/
 
     return 0;
 }

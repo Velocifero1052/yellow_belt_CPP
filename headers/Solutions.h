@@ -52,4 +52,20 @@ void canisters(){
     std::cout << res << '\n';
 }
 
+int minSubArrayLen(int target, const std::vector<int>& nums) {
+    int i = 0, total = 0;
+    int res = nums.size() + 1;
+    for (int j = 0; j < nums.size(); j++) {
+        total += nums[j];
+        while (total >= target) {
+            res = std::min(j - i + 1, res);
+            total -= nums[i];
+            i++;
+        }
+    }
+
+    return res == nums.size() + 1 ? 0 : res;
+}
+
+
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
