@@ -114,7 +114,6 @@ void PrintTasksInfo(TasksInfo tasks_info) {
 
 
 int main() {
-
     /*TeamTasks tasks;
     tasks.AddNewTask("Ilia");
     for (int i = 0; i < 3; ++i) {

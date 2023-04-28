@@ -67,5 +67,19 @@ int minSubArrayLen(int target, const std::vector<int>& nums) {
     return res == nums.size() + 1 ? 0 : res;
 }
 
+int maxProfit(std::vector<int>& prices) {
+    int i = 0, j = 1;
+    int max_profit = 0;
+    while (j < prices.size()) {
+        if (prices[i] < prices[j]) {
+            int profit = prices[j] - prices[i];
+            max_profit = std::max(max_profit, profit);
+        } else {
+            i = j;
+        }
+        j++;
+    }
+    return max_profit;
+}
 
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
