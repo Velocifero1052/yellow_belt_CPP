@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
+#include <map>
 
 void average_temp_2(){
     size_t size_of_vector;
@@ -80,6 +81,16 @@ int maxProfit(std::vector<int>& prices) {
         j++;
     }
     return max_profit;
+}
+
+template<typename K, typename V>
+V& GetRefStrict(std::map<K, V>& m, K k);
+
+template<typename K, typename V>
+V& GetRefStrict(std::map<K, V>& m, K k){
+    if(m.count(k) == 0)
+        throw std::runtime_error("");
+    return m.at(k);
 }
 
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
