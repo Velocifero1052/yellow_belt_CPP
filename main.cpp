@@ -5,6 +5,7 @@
 #include <tuple>
 #include <algorithm>
 #include <set>
+/*#include "headers/teamplate_outputs.h"*/
 
 using std::vector;
 using std::cout;
@@ -100,6 +101,7 @@ ostream& operator << (ostream& os, const BusesForStopResponse& r) {
 
 struct StopsForBusResponse {
     vector<string> buses_to_stops;
+    map<string, vector<string>> stops_to_buses;
     string bus;
 };
 
@@ -111,10 +113,10 @@ ostream& operator << (ostream& os, const StopsForBusResponse& r) {
 
     for (const string& stop : r.buses_to_stops) {
         os << "Stop " << stop << ": ";
-        if (r.buses_to_stops.size() == 1) {
+        if (r.stops_to_buses.at(stop).size() == 1) {
             os << "no interchange";
         } else {
-            for (const string& other_bus : r.buses_to_stops) {
+            for (const string& other_bus : r.stops_to_buses.at(stop)) {
                 if (r.bus != other_bus) {
                     os << other_bus << " ";
                 }
@@ -148,7 +150,6 @@ ostream& operator << (ostream& os, const AllBusesResponse& r) {
 class BusManager {
 public:
     void AddBus(const string& bus, const vector<string>& stops_) {
-        //cout << stops_ << endl;
         for(const string& stop: stops_) {
             if (stops_to_buses.count(stop) == 0) {
                 stops_to_buses[stop] = {};
@@ -171,9 +172,9 @@ public:
 
     StopsForBusResponse GetStopsForBus(const string& bus) const {
         if (buses_to_stops.count(bus) == 0) {
-            return StopsForBusResponse{{}, bus};
+            return StopsForBusResponse{{}, {}, bus};
         } else {
-            return StopsForBusResponse{buses_to_stops.at(bus), bus};
+            return StopsForBusResponse{buses_to_stops.at(bus), stops_to_buses, bus};
         }
     }
 
@@ -181,7 +182,8 @@ public:
         return AllBusesResponse{buses_to_stops};
     }
 private:
-    map<string, vector<string>> buses_to_stops, stops_to_buses;
+    map<string, vector<string>> buses_to_stops;
+    map<string, vector<string>> stops_to_buses;
 };
 
 
