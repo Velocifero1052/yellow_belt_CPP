@@ -1,7 +1,7 @@
 //
 // Created by comme on 5/10/2023.
 //
-
+#pragma once
 #ifndef YELLOW_BELT_CPP_DISTINCT_ROOT_NUMBER_H
 #define YELLOW_BELT_CPP_DISTINCT_ROOT_NUMBER_H
 
