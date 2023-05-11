@@ -6,9 +6,6 @@
 #include <algorithm>
 #include <set>
 #include <sstream>
-//#include "headers/sum_reverse_sort.h"
-//#include "headers/teamplate_outputs.h"
-#include "headers/phone_number.h"
 
 using std::vector;
 using std::cout;
@@ -35,13 +32,32 @@ using std::ostringstream;
 using std::runtime_error;
 using std::exception;
 
+void PrintVectorPart(const vector<int>& numbers){
+    auto first_negative = find_if(numbers.begin(), numbers.end(), [](int num) -> bool{
+        return num < 0;
+    });
+    bool first = true;
+    while(first_negative != numbers.begin()) {
+        --first_negative;
+        if (!first) {
+            cout << " " << *first_negative;
+        } else {
+            first = false;
+            cout << *first_negative;
+        }
+    }
 
+
+}
 
 int main() {
 
-    PhoneNumber p("+123-456-789");
-
-    cout << p.GetInternationalNumber() << endl;
+/*    PrintVectorPart({6, 1, 8, -5, 4});
+    cout << endl;
+    PrintVectorPart({-6, 1, 8, -5, 4});  // ничего не выведется
+    cout << endl;
+    PrintVectorPart({6, 1, 8, 5, 4});
+    cout << endl;*/
 
     return 0;
 }
