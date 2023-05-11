@@ -6,9 +6,9 @@
 #include <algorithm>
 #include <set>
 #include <sstream>
-#include "headers/sum_reverse_sort.h"
-#include "headers/teamplate_outputs.h"
-//#include "headers/test_framework.h"
+//#include "headers/sum_reverse_sort.h"
+//#include "headers/teamplate_outputs.h"
+#include "headers/phone_number.h"
 
 using std::vector;
 using std::cout;
@@ -39,11 +39,9 @@ using std::exception;
 
 int main() {
 
-    cout << Sum(2, 3) << endl;
-    cout << Reverse("Madam") << endl;
-    vector<int> v = {1, 5, 3, 4};
-    Sort(v);
-    cout << v << endl;
+    PhoneNumber p("+123-456-789");
+
+    cout << p.GetInternationalNumber() << endl;
 
     return 0;
 }
