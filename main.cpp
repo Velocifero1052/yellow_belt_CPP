@@ -50,14 +50,44 @@ void PrintVectorPart(const vector<int>& numbers){
 
 }
 
-int main() {
+template <typename T>
+vector<T> FindGreaterElements(const set<T>& elements, const T& border) {
+    auto border_it = find_if(elements.begin(), elements.end(), [border](const T& elem) -> bool {
+        return elem > border;
+    });
+    return {border_it, elements.end()};
+}
 
-/*    PrintVectorPart({6, 1, 8, -5, 4});
+vector<string> SplitIntoWords(const string& s){
+
+    vector<string> results;
+    auto search_res = s.begin();
+    bool first = true;
+    while (search_res != s.end()) {
+
+        auto prev = first ? search_res : next(search_res);
+        first = false;
+        search_res = find_if(prev, s.end(), [](const char& c) -> bool {
+            return c == ' ';
+        });
+        results.emplace_back(prev, search_res);
+    }
+
+    return results;
+}
+
+int main() {
+    string s = "Cpp Java Python C";
+
+    vector<string> words = SplitIntoWords(s);
+    cout << words.size() << " ";
+    for (auto it = begin(words); it != end(words); ++it) {
+        if (it != begin(words)) {
+            cout << "/";
+        }
+        cout << *it;
+    }
     cout << endl;
-    PrintVectorPart({-6, 1, 8, -5, 4});  // ничего не выведется
-    cout << endl;
-    PrintVectorPart({6, 1, 8, 5, 4});
-    cout << endl;*/
 
     return 0;
 }
