@@ -8,6 +8,7 @@
 #include <vector>
 #include <numeric>
 #include <map>
+#include <set>
 
 void average_temp_2(){
     size_t size_of_vector;
@@ -142,6 +143,30 @@ std::vector<std::string> SplitIntoWords(const std::string& s){
     }
 
     return results;
+}
+
+void PrintVectorPart(const std::vector<int>& numbers){
+    auto first_negative = find_if(numbers.begin(), numbers.end(), [](int num) -> bool{
+        return num < 0;
+    });
+    bool first = true;
+    while(first_negative != numbers.begin()) {
+        --first_negative;
+        if (!first) {
+            std::cout << " " << *first_negative;
+        } else {
+            first = false;
+            std::cout << *first_negative;
+        }
+    }
+}
+
+template <typename T>
+std::vector<T> FindGreaterElements(const std::set<T>& elements, const T& border) {
+    auto border_it = find_if(elements.begin(), elements.end(), [border](const T& elem) -> bool {
+        return elem > border;
+    });
+    return {border_it, elements.end()};
 }
 
 
