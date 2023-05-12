@@ -125,4 +125,24 @@ void RemoveDuplicates(std::vector<T>& v) {
     v.erase(last, v.end());
 }
 
+
+std::vector<std::string> SplitIntoWords(const std::string& s){
+
+    std::vector<std::string> results;
+    auto search_res = s.begin();
+    bool first = true;
+    while (search_res != s.end()) {
+
+        auto prev = first ? search_res : next(search_res);
+        first = false;
+        search_res = find_if(prev, s.end(), [](const char& c) -> bool {
+            return c == ' ';
+        });
+        results.emplace_back(prev, search_res);
+    }
+
+    return results;
+}
+
+
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H

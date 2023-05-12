@@ -34,49 +34,7 @@ using std::runtime_error;
 using std::exception;
 using std::partition;
 
-void PrintVectorPart(const vector<int>& numbers){
-    auto first_negative = find_if(numbers.begin(), numbers.end(), [](int num) -> bool{
-        return num < 0;
-    });
-    bool first = true;
-    while(first_negative != numbers.begin()) {
-        --first_negative;
-        if (!first) {
-            cout << " " << *first_negative;
-        } else {
-            first = false;
-            cout << *first_negative;
-        }
-    }
 
-
-}
-
-template <typename T>
-vector<T> FindGreaterElements(const set<T>& elements, const T& border) {
-    auto border_it = find_if(elements.begin(), elements.end(), [border](const T& elem) -> bool {
-        return elem > border;
-    });
-    return {border_it, elements.end()};
-}
-
-vector<string> SplitIntoWords(const string& s){
-
-    vector<string> results;
-    auto search_res = s.begin();
-    bool first = true;
-    while (search_res != s.end()) {
-
-        auto prev = first ? search_res : next(search_res);
-        first = false;
-        search_res = find_if(prev, s.end(), [](const char& c) -> bool {
-            return c == ' ';
-        });
-        results.emplace_back(prev, search_res);
-    }
-
-    return results;
-}
 
 enum class Gender {
     FEMALE,
