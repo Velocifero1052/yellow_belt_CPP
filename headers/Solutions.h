@@ -93,4 +93,29 @@ V& GetRefStrict(std::map<K, V>& m, K k){
     return m.at(k);
 }
 
+void print_v(const std::vector<size_t>& v) {
+    bool first = true;
+    for(const auto& elem: v) {
+        if (!first)
+            std::cout << " ";
+        first = false;
+        std::cout << elem;
+    }
+    std::cout << '\n';
+}
+
+void reverse_permutation_task() {
+    size_t size_of_vector;
+    std::cin >> size_of_vector;
+
+    std::vector<size_t> v(size_of_vector);
+    for(size_t i = 0; i < v.size(); i++) {
+        v[i] = size_of_vector - i;
+    }
+
+    do {
+        print_v(v);
+    } while(std::next_permutation(v.rbegin(), v.rend()));
+}
+
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <set>
 #include <sstream>
+//#include "headers/teamplate_outputs.h"
 
 using std::vector;
 using std::cout;
@@ -31,6 +32,7 @@ using std::cerr;
 using std::ostringstream;
 using std::runtime_error;
 using std::exception;
+using std::partition;
 
 void PrintVectorPart(const vector<int>& numbers){
     auto first_negative = find_if(numbers.begin(), numbers.end(), [](int num) -> bool{
@@ -76,18 +78,47 @@ vector<string> SplitIntoWords(const string& s){
     return results;
 }
 
-int main() {
-    string s = "Cpp Java Python C";
+template<typename T>
+void RemoveDuplicates(vector<T>& v) {
+    std::sort(v.begin(), v.end());
+    auto last = unique(v.begin(), v.end());
+    v.erase(last, v.end());
+}
 
-    vector<string> words = SplitIntoWords(s);
-    cout << words.size() << " ";
-    for (auto it = begin(words); it != end(words); ++it) {
-        if (it != begin(words)) {
-            cout << "/";
-        }
-        cout << *it;
+enum class Gender {
+    FEMALE,
+    MALE
+};
+
+struct Person {
+    int age;  // возраст
+    Gender gender;  // пол
+    bool is_employed;  // имеет ли работу
+};
+
+void PrintStats(vector<Person> persons) {
+
+}
+
+template <typename InputIt>
+int ComputeMedianAge(InputIt range_begin, InputIt range_end) {
+    if (range_begin == range_end) {
+        return 0;
     }
-    cout << endl;
+    vector<typename InputIt::value_type> range_copy(range_begin, range_end);
+    auto middle = begin(range_copy) + range_copy.size() / 2;
+    nth_element(
+            begin(range_copy), middle, end(range_copy),
+            [](const Person& lhs, const Person& rhs) {
+                return lhs.age < rhs.age;
+            }
+    );
+    return middle->age;
+}
+
+int main() {
+
+
 
     return 0;
 }
