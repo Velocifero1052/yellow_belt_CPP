@@ -118,4 +118,11 @@ void reverse_permutation_task() {
     } while(std::next_permutation(v.rbegin(), v.rend()));
 }
 
+template<typename T>
+void RemoveDuplicates(std::vector<T>& v) {
+    std::sort(v.begin(), v.end());
+    auto last = unique(v.begin(), v.end());
+    v.erase(last, v.end());
+}
+
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H

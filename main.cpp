@@ -78,13 +78,6 @@ vector<string> SplitIntoWords(const string& s){
     return results;
 }
 
-template<typename T>
-void RemoveDuplicates(vector<T>& v) {
-    std::sort(v.begin(), v.end());
-    auto last = unique(v.begin(), v.end());
-    v.erase(last, v.end());
-}
-
 enum class Gender {
     FEMALE,
     MALE
@@ -117,8 +110,6 @@ int ComputeMedianAge(InputIt range_begin, InputIt range_end) {
 }
 
 int main() {
-
-
 
     return 0;
 }
