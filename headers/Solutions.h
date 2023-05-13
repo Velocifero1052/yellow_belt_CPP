@@ -171,5 +171,15 @@ std::vector<T> FindGreaterElements(const std::set<T>& elements, const T& border)
     return {border_it, elements.end()};
 }
 
+template <typename RandomIt>
+void MergeSortForTwo(RandomIt range_begin, RandomIt range_end) {
+    int dist = distance(range_begin, range_end);
+    if (dist < 2)
+        return;
+    std::vector<typename RandomIt::value_type> v(range_begin, range_end);
+    MergeSortForTwo(v.begin(), v.begin() + v.size() / 2);
+    MergeSortForTwo(v.begin() + v.size() / 2, v.end());
+    merge(v.begin(), v.begin() + v.size() / 2, v.begin() + v.size() / 2, v.end(), range_begin);
+}
 
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
