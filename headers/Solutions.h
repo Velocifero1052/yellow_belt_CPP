@@ -4,11 +4,13 @@
 
 #ifndef YELLOW_BELT_CPP_SOLUTIONS_H
 #define YELLOW_BELT_CPP_SOLUTIONS_H
+
 #include <iostream>
 #include <vector>
 #include <numeric>
 #include <map>
 #include <set>
+#include <algorithm>
 
 void average_temp_2(){
     size_t size_of_vector;
@@ -116,7 +118,7 @@ void reverse_permutation_task() {
 
     do {
         print_v(v);
-    } while(std::next_permutation(v.rbegin(), v.rend()));
+    } while(std::prev_permutation(v.begin(), v.end()));
 }
 
 template<typename T>
