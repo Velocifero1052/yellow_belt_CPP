@@ -182,4 +182,21 @@ void MergeSortForTwo(RandomIt range_begin, RandomIt range_end) {
     merge(v.begin(), v.begin() + v.size() / 2, v.begin() + v.size() / 2, v.end(), range_begin);
 }
 
+template <typename RandomIt>
+void MergeSortThree(RandomIt range_begin, RandomIt range_end) {
+    int dist = distance(range_begin, range_end);
+    if (dist < 2)
+        return;
+    int one_third = dist / 3;
+    std::vector<typename RandomIt::value_type> v(range_begin, range_end);
+    MergeSortThree(v.begin(), v.begin() + one_third);
+    MergeSortThree(v.begin() + one_third, v.begin() + 2 * one_third);
+    MergeSortThree(v.begin() + 2 * one_third, v.end());
+    std::vector<typename RandomIt::value_type> temp;
+    merge(v.begin(), v.begin() + one_third, v.begin() + one_third, v.begin() + 2 * one_third, back_inserter(temp));
+
+    merge(temp.begin(), temp.end(), v.begin() + 2 * one_third, v.end(), range_begin);
+}
+
+
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
