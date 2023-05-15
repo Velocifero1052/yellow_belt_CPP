@@ -4,9 +4,8 @@
 #include <tuple>
 #include <algorithm>
 #include <set>
-#include <sstream>
 #include <iomanip>
-#include <ctime>
+#include <vector>
 //#include "headers/teamplate_outputs.h"
 
 using std::vector;
@@ -73,6 +72,45 @@ public:
         return day;
     }
 
+    int operator-(const Date& rhs) const {
+
+        if (this->year == rhs.year && this->month == rhs.month) {
+            return this->day - rhs.day + 1;
+        } else if (this->year == rhs.year) {
+
+            int start_number_of_days = number_of_days(rhs.year, rhs.month) - rhs.day;
+            int end_number_of_days = this->day;
+            int sum = start_number_of_days + end_number_of_days;
+
+            for (int i = rhs.month + 1; i < this->month; i++) {
+                sum += number_of_days(this->year, i);
+            }
+            return sum;
+        } else {
+            int sum = 0;
+            bool first = true;
+            for (int i = this->month; i <= 12; i++) {
+                if (first) {
+                    sum += number_of_days(this->year, i) - this->day;
+                    first = false;
+                } else {
+                    sum += number_of_days(this->year,i);
+                }
+            }
+
+            for (int i = 1; i < rhs.month; i++) {
+                sum += number_of_days(rhs.year, i);
+            }
+            sum += rhs.number_of_days(rhs.year, rhs.month);
+
+            for (int i = this->year + 1; i < rhs.year; i++) {
+                sum += is_leap_year(i) ? 366 : 365;
+            }
+
+            return sum;
+        }
+    }
+
     bool operator==(const Date& rhs) const{
         return this->year == rhs.GetYear() && this->month == rhs.GetMonth() && this->day == rhs.GetDay();
     }
@@ -124,20 +162,23 @@ public:
 
         return stream;
     }
-    bool is_leap_year() {
+
+    bool is_leap_year(int year) const {
         return year % 400 == 0 || (year % 4 == 0 && year % 100 != 0);
     }
-    int number_of_days() {
+
+    int number_of_days(int year, int month) const {
         if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
             return 31;
         else if (month == 4 || month == 6 || month == 9 || month == 11) {
             return 30;
         } else {
-            if (is_leap_year())
+            if (is_leap_year(year))
                 return 29;
             else return 28;
         }
     }
+
 private:
     int year;
     int month;
@@ -180,6 +221,33 @@ int main() {
 
         }
     }*/
+    {
+        Date one(2000, 01, 01);
+        Date two(2000, 01, 30);
+        cout << "Same year and same month" << endl;
+        cout << two - one << endl;
+    }
+
+    {
+        Date one(2000, 01, 15);
+        Date two(2000, 02, 6);
+        cout << "Same year, next month" << endl;
+        cout << two - one << '\n';
+    }
+
+    {
+        Date one(2000, 01, 15);
+        Date two(2000, 03, 6);
+        cout << "Same year, two month difference" << endl;
+        cout << two - one << '\n';
+    }
+
+    {
+        Date one(2000, 01, 15);
+        Date two(2000, 12, 6);
+        cout << "Same year, next month" << endl;
+        cout << two - one << '\n';
+    }
 
 
     return 0;
