@@ -6,7 +6,8 @@
 #include <set>
 #include <iomanip>
 #include <vector>
-//#include "headers/teamplate_outputs.h"
+#include <sstream>
+//#include "headers/test_framework.h"
 
 using std::vector;
 using std::cout;
@@ -78,32 +79,33 @@ public:
             return this->day - rhs.day + 1;
         } else if (this->year == rhs.year) {
 
-            int start_number_of_days = number_of_days(rhs.year, rhs.month) - rhs.day;
+            int start_number_of_days = number_of_days(rhs.year, rhs.month) - rhs.day + 1;
             int end_number_of_days = this->day;
             int sum = start_number_of_days + end_number_of_days;
 
             for (int i = rhs.month + 1; i < this->month; i++) {
                 sum += number_of_days(this->year, i);
             }
+
             return sum;
         } else {
             int sum = 0;
             bool first = true;
-            for (int i = this->month; i <= 12; i++) {
+            for (int i = rhs.month; i <= 12; i++) {
                 if (first) {
-                    sum += number_of_days(this->year, i) - this->day;
+                    sum += number_of_days(rhs.year, i) - rhs.day;
                     first = false;
                 } else {
-                    sum += number_of_days(this->year,i);
+                    sum += number_of_days(rhs.year,i);
                 }
             }
 
-            for (int i = 1; i < rhs.month; i++) {
-                sum += number_of_days(rhs.year, i);
+            for (int i = 1; i < this->month; i++) {
+                sum += number_of_days(this->year, i);
             }
-            sum += rhs.number_of_days(rhs.year, rhs.month);
+            sum += rhs.number_of_days(this->year, this->month);
 
-            for (int i = this->year + 1; i < rhs.year; i++) {
+            for (int i = rhs.year + 1; i < this->year; i++) {
                 sum += is_leap_year(i) ? 366 : 365;
             }
 
@@ -119,6 +121,10 @@ public:
         return this->year < rhs.GetYear()
                || this->year == rhs.GetYear() && this->month < rhs.GetMonth()
                || this->year == rhs.GetYear() && this->month == rhs.GetMonth() && this->day < rhs.GetDay();
+    }
+
+    bool operator<=(const Date& rhs) const {
+        return *this < rhs || *this == rhs;
     }
 
     friend std::ostream& operator<<(std::ostream& stream, const Date& date) {
@@ -184,71 +190,86 @@ private:
     int month;
     int day;
 };
+/*
+void date_tests() {
+    {
+        Date one(2000, 01, 01);
+        Date two(2000, 01, 30);
+        AssertEqual(two - one, 30, "one month difference is incorrect");
+    }
+    {
+        Date one(2000, 01, 15);
+        Date two(2000, 02, 6);
+        AssertEqual(two - one, 22, "same year next month");
+    }
+    {
+        Date one(2000, 01, 15);
+        Date two(2000, 03, 6);
+        AssertEqual(two - one, 51,"same year, two month difference");
+    }
+    {
+        Date one(2000, 01, 15);
+        Date two(2000, 12, 6);
+        AssertEqual(two - one, 326, "Same year last month");
+    }
+    {
+        Date one(2000, 01, 01);
+        Date two(2099, 12, 31);
+        AssertEqual(two - one, 36524, "One century difference");
+    }
+}*/
+
+int jdn_value(Date d) {
+    return 367 * d.GetYear() - (7 * (d.GetYear() + 5001 + (d.GetMonth() - 9)/7))/4 +
+            (275 * d.GetMonth())/9 + d.GetDay() + 1729777;
+}
 
 int main() {
+    int to_sub = jdn_value(Date(2000, 01, 01));
+    vector<double> days(36525, 0);
 
-    /*int command_count;
+    int command_count;
     cin >> command_count;
-    set<Date> periods;
-    map<Date, long> period_to_income;
 
-    for (int i = 0; i < command_count; i++) {
+    for (int command_number = 0; command_number < command_count; command_number++) {
         string command;
         cin >> command;
         Date start, end;
         if (command == "Earn") {
-            long income;
+            double income;
             cin >> start >> end >> income;
-            periods.insert(start);
-            periods.insert(end);
-            period_to_income[start] = income;
-            period_to_income[end] = income;
+            int i, j;
+            if (start <= end) {
+                i = jdn_value(start) - to_sub;
+                j = jdn_value(end) - to_sub;
+            } else {
+                i = jdn_value(end) - to_sub;
+                j = jdn_value(start) - to_sub;
+            }
+
+            int number_of_days = start <= end ? end - start : start - end;
+            //cout << "Number of days: " << number_of_days << endl;
+            double value = income / number_of_days;
+            for (; i <= j; i++) {
+                days[i] += value;
+            }
         } else if (command == "ComputeIncome") {
             cin >> start >> end;
-            auto start_it = find_if(periods.begin(), periods.end(), [start](const Date& entry) -> bool {
-                return start < entry;
-            });
-            auto end_it = find_if(periods.rbegin(), periods.rend(), [end](const Date& entry) -> bool {
-                return entry < end;
-            });
-            if (start_it != periods.end())
-                cout << *start_it << endl;
-            if (end_it != periods.rend())
-                cout << *end_it << endl;
+            int i, j;
 
-
-            cout << start << " " << end << endl;
-
+            if (start <= end) {
+                i = jdn_value(start) - to_sub;
+                j = jdn_value(end) - to_sub;
+            } else {
+                i = jdn_value(end) - to_sub;
+                j = jdn_value(start) - to_sub;
+            }
+            double starter = 0.0;
+            double sum  = std::accumulate(days.begin() + i, days.begin() + j + 1, starter);
+            cout.precision(25);
+            cout << sum << '\n';
         }
-    }*/
-    {
-        Date one(2000, 01, 01);
-        Date two(2000, 01, 30);
-        cout << "Same year and same month" << endl;
-        cout << two - one << endl;
     }
-
-    {
-        Date one(2000, 01, 15);
-        Date two(2000, 02, 6);
-        cout << "Same year, next month" << endl;
-        cout << two - one << '\n';
-    }
-
-    {
-        Date one(2000, 01, 15);
-        Date two(2000, 03, 6);
-        cout << "Same year, two month difference" << endl;
-        cout << two - one << '\n';
-    }
-
-    {
-        Date one(2000, 01, 15);
-        Date two(2000, 12, 6);
-        cout << "Same year, next month" << endl;
-        cout << two - one << '\n';
-    }
-
 
     return 0;
 }
