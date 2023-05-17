@@ -1,42 +1,13 @@
-#include <iostream>
-#include <numeric>
-#include <map>
-#include <tuple>
-#include <algorithm>
-#include <set>
-#include <iomanip>
-#include <vector>
-#include <sstream>
-//#include "headers/test_framework.h"
+//
+// Created by Rakhmon Radjabov on 17/05/23.
+//
 
-using std::vector;
-using std::cout;
-using std::cin;
-using std::out_of_range;
-using std::invalid_argument;
-using std::ostream;
-using std::istream;
-using std::accumulate;
-using std::stringstream;
-using std::string;
-using std::map;
-using std::set;
-using std::count_if;
-using std::unique;
-using std::tuple;
-using std::min;
-using std::find_if;
-using std::endl;
-using std::pair;
-using std::make_pair;
-using std::cerr;
-using std::ostringstream;
-using std::runtime_error;
-using std::exception;
-using std::partition;
-using std::to_string;
-using std::setw;
-using std::setfill;
+#ifndef YELLOW_BELT_CPP_DATE_H
+#define YELLOW_BELT_CPP_DATE_H
+
+#include <string>
+#include <iomanip>
+#include <sstream>
 
 class Date {
 public:
@@ -50,13 +21,13 @@ public:
     Date(int year, int month, int day){
         this->year = year;
         if(!(month >= 1 && month <= 12)) {
-            string error_message = "Month value is invalid: " + to_string(month);
+            std::string error_message = "Month value is invalid: " + std::to_string(month);
             throw std::invalid_argument(error_message);
         }
         this->month = month;
         if(!(day >= 1 && day <= 31)){
-            string error_message = "Day value is invalid: " + to_string(day);
-            throw invalid_argument(error_message);
+            std::string error_message = "Day value is invalid: " + std::to_string(day);
+            throw std::invalid_argument(error_message);
         }
         this->day = day;
     }
@@ -88,17 +59,17 @@ public:
     }
 
     friend std::ostream& operator<<(std::ostream& stream, const Date& date) {
-        stream << setw(4) << setfill('0') << date.GetYear() << "-" <<
-               setw(2) << setfill('0') << date.GetMonth() << "-" <<
-               setw(2) << setfill('0') << date.GetDay();
+        stream << std::setw(4) << std::setfill('0') << date.GetYear() << "-"
+            << std::setw(2) << std::setfill('0') << date.GetMonth() << "-"
+            << std::setw(2) << std::setfill('0') << date.GetDay();
         return stream;
     }
 
     friend std::istream& operator>>(std::istream& stream, Date& date) {
 
-        string string_buffer;
+        std::string string_buffer;
         stream >> string_buffer;
-        stringstream ss(string_buffer);
+        std::stringstream ss(string_buffer);
 
         ss >> date.year;
         if ((char)ss.peek() != '-')
@@ -156,42 +127,4 @@ int jdn_value(Date d) {
            (275 * d.GetMonth()) / 9 + d.GetDay() + 1729777;
 }
 
-/*void date_tests() {
-    {
-        Date one(2000, 01, 01);
-        Date two(2000, 01, 30);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 30, "one month difference is incorrect");
-    }
-    {
-        Date one(2000, 01, 15);
-        Date two(2000, 02, 6);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 23, "same year next month");
-    }
-    {
-        Date one(2000, 01, 15);
-        Date two(2000, 03, 6);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 52,"same year, two month difference");
-    }
-    {
-        Date one(2000, 01, 15);
-        Date two(2000, 12, 6);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 327, "Same year last month");
-    }
-    {
-        Date one(2000, 01, 01);
-        Date two(2099, 12, 31);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 36525, "One century difference");
-    }
-}*/
-
-int main() {
-
-    /*TestRunner tr;
-    tr.RunTest(date_tests, "Date tests");*/
-
-
-
-    return 0;
-}
-
-
+#endif //YELLOW_BELT_CPP_DATE_H
