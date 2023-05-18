@@ -156,39 +156,45 @@ int jdn_value(Date d) {
            (275 * d.GetMonth()) / 9 + d.GetDay() + 1729777;
 }
 
-/*void date_tests() {
-    {
-        Date one(2000, 01, 01);
-        Date two(2000, 01, 30);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 30, "one month difference is incorrect");
-    }
-    {
-        Date one(2000, 01, 15);
-        Date two(2000, 02, 6);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 23, "same year next month");
-    }
-    {
-        Date one(2000, 01, 15);
-        Date two(2000, 03, 6);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 52,"same year, two month difference");
-    }
-    {
-        Date one(2000, 01, 15);
-        Date two(2000, 12, 6);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 327, "Same year last month");
-    }
-    {
-        Date one(2000, 01, 01);
-        Date two(2099, 12, 31);
-        AssertEqual(jdn_value(two) - jdn_value(one) + 1, 36525, "One century difference");
-    }
-}*/
+
 
 int main() {
 
-    /*TestRunner tr;
-    tr.RunTest(date_tests, "Date tests");*/
+    int to_sub = jdn_value(Date(1700, 01, 01));
+    std::vector<long long> days(146100, 0);
+    std::vector<long long> res(146100, 0);
+    int command_count;
+    std::cin >> command_count;
 
+    for(int command_number = 0; command_number < command_count; command_number++) {
+        Date date;
+        long long value;
+        std::cin >> date >> value;
+        int i = jdn_value(date) - to_sub;
+        days[i] = value;
+
+
+    }
+
+    std::cin >> command_count;
+
+    for (int command_number = 0; command_number < command_count; command_number++) {
+        Date start, end;
+        std::cin >> start >> end;
+        int i, j;
+        if (start <= end) {
+            i = jdn_value(start) - to_sub;
+            j = jdn_value(end) - to_sub;
+        } else {
+            i = jdn_value(end) - to_sub;
+            j = jdn_value(start) - to_sub;
+        }
+
+       std::partial_sum(days.begin() + i, days.begin() + j + 1,
+                         res.begin() + i);
+
+        std::cout << res[j] << '\n';
+    }
 
 
     return 0;

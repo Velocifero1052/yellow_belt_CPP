@@ -2,8 +2,8 @@
 // Created by Rakhmon Radjabov on 17/05/23.
 //
 
-#ifndef YELLOW_BELT_CPP_PERSONAL_BUDJET_H
-#define YELLOW_BELT_CPP_PERSONAL_BUDJET_H
+#ifndef YELLOW_BELT_CPP_PERSONAL_BUDGET_H
+#define YELLOW_BELT_CPP_PERSONAL_BUDGET_H
 
 #include "date.h"
 #include <vector>
@@ -60,5 +60,45 @@ void personal_budget_starter() {
     }
 }
 
+void personal_budget_starter_plus() {
 
-#endif //YELLOW_BELT_CPP_PERSONAL_BUDJET_H
+    int to_sub = jdn_value(Date(1700, 01, 01));
+    std::vector<long long> days(146100, 0);
+    std::vector<long long>res(146100, 0);
+    int command_count;
+    std::cin >> command_count;
+
+    for(int command_number = 0; command_number < command_count; command_number++) {
+        Date date;
+        long long value;
+        std::cin >> date >> value;
+        int i = jdn_value(date) - to_sub;
+        days[i] = value;
+    }
+
+    std::cin >> command_count;
+
+    for (int command_number = 0; command_number < command_count; command_number++) {
+        Date start, end;
+        std::cin >> start >> end;
+        int i, j;
+        if (start <= end) {
+            i = jdn_value(start) - to_sub;
+            j = jdn_value(end) - to_sub;
+        } else {
+            i = jdn_value(end) - to_sub;
+            j = jdn_value(start) - to_sub;
+        }
+
+        std::partial_sum(days.begin() + i, days.begin() + j + 1,
+                         res.begin() + i);
+
+        std::cout << res[j] << '\n';
+        /*for (; i <= j; i++) {
+            res[i] = 0;
+        }*/
+    }
+
+}
+
+#endif //YELLOW_BELT_CPP_PERSONAL_BUDGET_H
