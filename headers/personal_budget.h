@@ -64,8 +64,10 @@ void personal_budget_starter_plus() {
 
     int to_sub = jdn_value(Date(1700, 01, 01));
     std::vector<long long> days(146100, 0);
-    std::vector<long long>res(146100, 0);
+    std::vector<long long> res(146100, 0);
+
     int command_count;
+
     std::cin >> command_count;
 
     for(int command_number = 0; command_number < command_count; command_number++) {
@@ -73,8 +75,11 @@ void personal_budget_starter_plus() {
         long long value;
         std::cin >> date >> value;
         int i = jdn_value(date) - to_sub;
-        days[i] = value;
+        days[i] += value;
     }
+
+    partial_sum(days.begin(), days.end(),
+                res.begin());
 
     std::cin >> command_count;
 
@@ -89,14 +94,11 @@ void personal_budget_starter_plus() {
             i = jdn_value(end) - to_sub;
             j = jdn_value(start) - to_sub;
         }
+        if (i != 0)
+            std::cout << res[j] - res[i - 1] << '\n';
+        else
+            std::cout << res[j] << '\n';
 
-        std::partial_sum(days.begin() + i, days.begin() + j + 1,
-                         res.begin() + i);
-
-        std::cout << res[j] << '\n';
-        /*for (; i <= j; i++) {
-            res[i] = 0;
-        }*/
     }
 
 }
