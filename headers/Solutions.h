@@ -198,5 +198,40 @@ void MergeSortThree(RandomIt range_begin, RandomIt range_end) {
     merge(temp.begin(), temp.end(), v.begin() + 2 * one_third, v.end(), range_begin);
 }
 
+std::set<int>::const_iterator FindNearestElement(const std::set<int>& numbers, int border){
+
+    if(numbers.empty())
+        return numbers.end();
+
+    auto lower = numbers.lower_bound(border);
+    if (lower == numbers.end())
+        return prev(lower);
+
+    if (lower != numbers.begin()) {
+        int curr_value = *lower;
+        auto prev_iterator = prev(lower);
+        int prev_value = *prev_iterator;
+
+        if(abs(curr_value - border) < abs(prev_value - border))
+            return lower;
+        else return prev_iterator;
+    } else {
+        return lower;
+    }
+}
+
+void find_nearest_sample(){
+    std::set<int> numbers = {1, 4, 6};
+    std::cout <<
+         *FindNearestElement(numbers, 0) << " " <<
+         *FindNearestElement(numbers, 3) << " " <<
+         *FindNearestElement(numbers, 5) << " " <<
+         *FindNearestElement(numbers, 6) << " " <<
+         *FindNearestElement(numbers, 100) << std::endl;
+
+    std::set<int> empty_set;
+
+    std::cout << (FindNearestElement(empty_set, 8) == end(empty_set)) << std::endl;
+}
 
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
