@@ -24,6 +24,12 @@ int main() {
     for (auto it = m_result.first; it != m_result.second; ++it) {
         cout << *it << " ";
     }
+
+    auto it = lower_bound(sorted_strings.begin(), sorted_strings.end(), "m");
+    cout << "################################################################" << endl;
+    cout << *it << endl;
+    cout << "################################################################" << endl;
+
     cout << endl;
 
     return 0;
