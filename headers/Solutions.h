@@ -293,5 +293,42 @@ void arithmetic_expression_part_one() {
     }
 }
 
+int define_priority(std::string operation) {
+    if (operation == "+" || operation == "-")
+        return 0;
+    else return 1;
+}
+
+void arithmetic_expression_part_two() {
+    int a;
+    int number_of_commands;
+    std::cin >> a;
+    std::cin >> number_of_commands;
+    std::deque<std::string> d;
+    d.push_back(std::to_string(a));
+    std::string operation, prev_operation;
+    int value;
+    int current_priority = 1;
+    for (int i = 0; i < number_of_commands; i++) {
+        std::cin >> operation >> value;
+
+        int new_operation_priority = define_priority(operation);
+
+        if (current_priority < new_operation_priority) {
+            d.emplace_front("(");
+            d.emplace_back(")");
+        }
+
+        d.emplace_back(" ");
+        d.push_back(operation);
+        d.emplace_back(" ");
+        d.push_back(std::to_string(value));
+        current_priority = new_operation_priority;
+    }
+
+    for(const std::string& str: d) {
+        std::cout << str;
+    }
+}
 
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
