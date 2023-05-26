@@ -234,4 +234,21 @@ void find_nearest_sample(){
     std::cout << (FindNearestElement(empty_set, 8) == end(empty_set)) << std::endl;
 }
 
+template <typename RandomIt>
+std::pair<RandomIt, RandomIt> FindStartsWith(RandomIt range_begin, RandomIt range_end, char prefix) {
+    if (range_begin == range_end) {
+        return make_pair(range_end, range_end);
+    }
+
+    std::string s{prefix};
+
+    auto start = lower_bound(range_begin, range_end, s);
+    prefix++;
+    std::string s2{prefix};
+    auto end = lower_bound(range_begin, range_end, s2);
+
+    return make_pair(start, end);
+}
+
+
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
