@@ -11,6 +11,7 @@
 #include <map>
 #include <set>
 #include <algorithm>
+#include <deque>
 
 void average_temp_2(){
     size_t size_of_vector;
@@ -266,5 +267,31 @@ std::pair<RandomIt, RandomIt> FindStartsWith(
 
     return make_pair(start, end);
 }
+
+void arithmetic_expression_part_one() {
+    int a;
+    int number_of_commands;
+    std::cin >> a;
+    std::cin >> number_of_commands;
+    std::deque<std::string> d;
+    d.push_back(std::to_string(a));
+    std::string operation;
+    int value;
+
+    for (int i = 0; i < number_of_commands; i++) {
+        std::cin >> operation >> value;
+        d.emplace_front("(");
+        d.emplace_back(")");
+        d.emplace_back(" ");
+        d.push_back(operation);
+        d.emplace_back(" ");
+        d.push_back(std::to_string(value));
+    }
+
+    for(const std::string& str: d) {
+        std::cout << str;
+    }
+}
+
 
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
