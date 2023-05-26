@@ -250,5 +250,21 @@ std::pair<RandomIt, RandomIt> FindStartsWith(RandomIt range_begin, RandomIt rang
     return make_pair(start, end);
 }
 
+template <typename RandomIt>
+std::pair<RandomIt, RandomIt> FindStartsWith(
+        RandomIt range_begin, RandomIt range_end,
+        const std::string& prefix){
+    if (range_begin == range_end) {
+        return make_pair(range_end, range_end);
+    }
+
+    auto start = lower_bound(range_begin, range_end, prefix);
+
+    std::string prefix2{prefix};
+    prefix2[prefix.size() - 1]++;
+    auto end = lower_bound(range_begin, range_end, prefix2);
+
+    return make_pair(start, end);
+}
 
 #endif //YELLOW_BELT_CPP_SOLUTIONS_H
