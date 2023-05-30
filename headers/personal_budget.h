@@ -5,7 +5,7 @@
 #ifndef YELLOW_BELT_CPP_PERSONAL_BUDGET_H
 #define YELLOW_BELT_CPP_PERSONAL_BUDGET_H
 
-#include "date.h"
+#include "../date.h"
 #include <vector>
 #include <iostream>
 #include <string>

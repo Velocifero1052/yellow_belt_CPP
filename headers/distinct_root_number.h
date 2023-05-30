@@ -5,7 +5,7 @@
 #ifndef YELLOW_BELT_CPP_DISTINCT_ROOT_NUMBER_H
 #define YELLOW_BELT_CPP_DISTINCT_ROOT_NUMBER_H
 
-#include "test_framework.h"
+#include "../test_runner.h"
 
 int GetDistinctRealRootCount(double a, double b, double c) {
     if(a != 0.0 && b != 0.0) {

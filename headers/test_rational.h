@@ -8,7 +8,7 @@
 #include <exception>
 #include <stdexcept>
 #include <iostream>
-#include "test_framework.h"
+#include "../test_runner.h"
 
 class Rational {
 public:

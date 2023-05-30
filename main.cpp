@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include "test_runner.h"
 
 using namespace std;
 
@@ -37,5 +38,6 @@ void TestParseEvent() {
 void TestAll() {
     TestRunner tr;
     tr.RunTest(TestParseEvent, "TestParseEvent");
+    TestFunc TestParseCondition;
     tr.RunTest(TestParseCondition, "TestParseCondition");
 }

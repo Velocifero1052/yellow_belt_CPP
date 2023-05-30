@@ -5,7 +5,7 @@
 #ifndef YELLOW_BELT_CPP_TEST_IS_PALINDOM_H
 #define YELLOW_BELT_CPP_TEST_IS_PALINDOM_H
 #include <string>
-#include "test_framework.h"
+#include "../test_runner.h"
 
 bool IsPalindrom(std::string word){
     for(int i = 0; i < word.length() / 2; i++){

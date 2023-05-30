@@ -4,6 +4,7 @@
 
 #ifndef YELLOW_BELT_CPP_FIGURES_H
 #define YELLOW_BELT_CPP_FIGURES_H
+
 #include <string>
 #include <cmath>
 #include <memory>

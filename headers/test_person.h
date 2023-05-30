@@ -8,7 +8,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
-#include "test_framework.h"
+#include "../test_runner.h"
 
 class Person {
 public:
