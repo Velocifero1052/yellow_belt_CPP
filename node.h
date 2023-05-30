@@ -6,41 +6,23 @@
 #define YELLOW_BELT_CPP_NODE_H
 
 #include "date.h"
+#include <string>
 
-struct Node {
-    virtual bool Evaluate() const = 0;
+using std::string;
+
+class Node {
+public:
+    virtual bool Evaluate(Date date, string str) const = 0;
 };
 
-struct Value : public Node {
-    Value(Date date);
-    bool Evaluate() const override;
+class DateComparisonNode : public Node {
+    DateComparisonNode(Date date);
+    bool Evaluate(Date date, string str) const override;
 private:
     const Date _value;
 };
 
-struct Op : public Node {
-    Op(char value)
-            : precedence([value] {
-        if (value == '*') {
-            return 2;
-        } else {
-            return 1;
-        }
-    }()),
-              _op(value) {}
 
-    const uint8_t precedence;
 
-    bool Evaluate() const override {
-        return false;
-    }
-
-    void SetLeft(std::shared_ptr<Node> node) { _left = node; }
-    void SetRight(std::shared_ptr<Node> node) { _right = node; }
-
-private:
-    const char _op;
-    std::shared_ptr<const Node> _left, _right;
-};
 
 #endif //YELLOW_BELT_CPP_NODE_H

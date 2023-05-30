@@ -3,7 +3,8 @@
 //
 #include "node.h"
 
-Value::Value(Date date) : _value(date) {}
 
-bool Value::Evaluate() const { return false; }
+DateComparisonNode::DateComparisonNode(Date date) : _value(date) {}
+
+bool DateComparisonNode::Evaluate(Date date, string str) const { return false; }
 
