@@ -1,28 +1,63 @@
-//
-// Created by Rakhmon Radjabov on 30/05/23.
-//
-
-#ifndef YELLOW_BELT_CPP_NODE_H
-#define YELLOW_BELT_CPP_NODE_H
+#pragma once
 
 #include "date.h"
+
 #include <string>
+#include <memory>
+using namespace std;
 
-using std::string;
+struct Node {
+  virtual bool Evaluate(const Date& date, const string& event) const = 0;
+};
 
-class Node {
-public:
-    virtual bool Evaluate(Date date, string str) const = 0;
+struct EmptyNode : public Node {
+  bool Evaluate(const Date& date, const string& event) const override;
+};
+
+enum class Comparison {
+  Less,
+  LessOrEqual,
+  Equal,
+  NotEqual,
+  Greater,
+  GreaterOrEqual,
 };
 
 class DateComparisonNode : public Node {
-    DateComparisonNode(Date date);
-    bool Evaluate(Date date, string str) const override;
+public:
+  DateComparisonNode(Comparison comparison, const Date& value);
+  bool Evaluate(const Date& date, const string& event) const override;
+
 private:
-    const Date _value;
+  Comparison comparison_;
+  Date value_;
 };
 
+class EventComparisonNode : public Node {
+public:
+  EventComparisonNode(Comparison comparison, const string& value);
+  bool Evaluate(const Date& date, const string& event) const override;
 
+private:
+  Comparison comparison_;
+  string value_;
+};
 
+enum class LogicalOperation {
+  And,
+  Or,
+};
 
-#endif //YELLOW_BELT_CPP_NODE_H
+class LogicalOperationNode : public Node {
+public:
+  LogicalOperationNode(LogicalOperation operation, shared_ptr<Node> left, shared_ptr<Node> right);
+  bool Evaluate(const Date& date, const string& event) const override;
+
+private:
+  LogicalOperation operation_;
+  shared_ptr<Node> left_, right_;
+};
+
+void TestDateComparisonNode();
+void TestEventComparisonNode();
+void TestLogicalOperationNode();

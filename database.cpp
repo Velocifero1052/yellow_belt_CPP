@@ -1,49 +1,34 @@
-//
-// Created by Rakhmon Radjabov on 30/05/23.
-//
 #include "database.h"
+#include <algorithm>
+#include <stdexcept>
+#include <tuple>
+using namespace std;
 
-void Database::AddEvent(const Date& date, const string& event){
-    if(db.count(date) == 0)
-        db[date] = set<string>();
-    db[date].insert(event);
+void Database::Add(const Date& date, const string& event) {
+  data_[date].Add(event);
 }
 
-bool Database::DeleteEvent(const Date& date, const string& event){
-
-    if(db.count(date) != 0){
-        auto events = db[date];
-        if(events.count(event) == 0)
-            return false;
-        else{
-            events.erase(event);
-            db[date] = events;
-            return true;
-        }
+void Database::Print(ostream& os) const {
+  for (const auto& kv : data_) {
+    for (const auto& event : kv.second.GetAll()) {
+      os << kv.first << ' ' << event << endl;
     }
-    return false;
+  }
 }
 
-int Database::DeleteDate(const Date& date){
-    if(db.count(date) == 0)
-        return 0;
-    size_t number_of_events = db[date].size();
-    db.erase(date);
-    return (int)number_of_events;
+Entry Database::Last(const Date& date) const {
+  auto it = data_.upper_bound(date);
+  if (it == data_.begin()) {
+    throw invalid_argument("");
+  }
+  --it;
+  return {it->first, it->second.GetAll().back()};
 }
 
-int Database::Find(const Date& date) const{
-    return (int)db.count(date);
+ostream& operator << (ostream& os, const Entry& e) {
+  return os << e.date << " " << e.event;
 }
 
-void Database::Print() const{
-    for(const auto& [key, value]: db){
-        for(const auto& event: value){
-            cout << key << " " << event << '\n';
-        }
-    }
-}
-
-set<string>& Database::getEvents(Date& date){
-    return db[date];
+bool operator == (const Entry& lhs, const Entry& rhs) {
+  return tie(lhs.date, lhs.event) == tie(rhs.date, rhs.event);
 }
